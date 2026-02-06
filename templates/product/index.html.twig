@@ -3,7 +3,38 @@
 {% block title %}Hello ProductController!{% endblock %}
 
 {% block body %}
-
 <h1>Product index</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>NOM</th>
+            <th>Description</th>
+            <th>Prix</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.price }} €</td>
+            <td>{{product.image}}</td>
+            <td>
+                <a class="btn btn-danger" href="{{ path('app_delete_product', {'id': product.id}) }}">Supprimer</a>
+                <a class="btn btn-primary" href="{{ path('app_edit_product', {'id': product.id}) }}">Editer</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a class="btn btn-success" href="{{ path('app_add_product') }}">Ajouter un produit</a>
+
+
 
 {% endblock %}
+

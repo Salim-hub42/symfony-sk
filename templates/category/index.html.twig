@@ -3,16 +3,40 @@
 {% block title %}Hello CategoryController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="d-flex justify-content-center">
 
 <h1>Category index</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for category in categories %}
+        <tr>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{category.image}}</td>  {# <img src="{{ asset(category.image) }}" alt="{{ category.name }}" width="60"> #}
+            <td>
+                    <form method="post" action="{{ path('app_delete_category', {'id': category.id}) }}" style="display:inline" onsubmit="return confirm('Confirmer la suppression ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                <a class="btn btn-primary" href="{{ path('app_edit_category', {'id': category.id}) }}">Editer</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a class="btn btn-success" href="{{ path('app_add_category') }}">Ajouter une catégorie</a>
 
 
 
-</div>
 {% endblock %}
