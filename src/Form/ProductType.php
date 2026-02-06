@@ -9,6 +9,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProductType extends AbstractType
 {
@@ -18,7 +20,26 @@ class ProductType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('price')
-            ->add('image')
+            ->add('image', FileType::class, [
+                'required' => false,
+                'mapped' => false,
+                'label' => 'Image du produit',
+                'attr' => [
+                    'placeholder' => 'placeholder Image Produit',
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/gif',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image file (JPEG, PNG, GIF)',
+                        'uploadFormSizeErrorMessage' => 'The file is too large. Maximum size allowed is 1024ko.',
+                    ])
+                ],
+            ])
             ->add('date_add')
             ->add('category', EntityType::class, [
                 'class' => category::class,

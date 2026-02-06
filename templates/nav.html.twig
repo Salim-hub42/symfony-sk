@@ -1,32 +1,61 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-white shadow rounded-4 py-2 mb-4" style="border-radius: 1.5rem !important;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{ path('app_home') }}"><img src="images/logo.webp" alt="Logo" width="50" height="50"></a>
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ path('app_home') }}">
+      <img src="images/logo.webp" alt="Logo" width="48" height="48" class="rounded-circle shadow-sm">
+      <span class="fw-bold text-primary" style="font-size: 1.3rem;">SalimShop</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Home</a>
+          <a class="nav-link px-3 rounded-3 fw-semibold text-dark" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ path('app_product') }}">Product</a>
+          <a class="nav-link px-3 rounded-3 fw-semibold text-dark" href="{{ path('app_contact') }}">Contact</a>
         </li>
-         <li class="nav-item">
-          <a class="nav-link" href="{{ path('app_category') }}">Category</a>
+        {% if is_granted('ROLE_EMPLOYEE') %}
+        <li class="nav-item">
+          <a class="nav-link px-3 rounded-3 fw-semibold text-dark" href="{{ path('app_category') }}">Catégories</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link px-3 rounded-3 fw-semibold text-dark" href="{{ path('app_product') }}">Produits</a>
+        </li>
+        {% endif %}
       </ul>
-      <ul class="navbar-nav ml-auto">
-    {% if app.user %}
-        <li class="nav-item">
-            <span class="nav-link">Bonjour, {{ app.user.prenom }}</span>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_logout') }}" style="color: red;">Logout</a>
-        </li>
-    {% else %}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_login') }}">Login</a>
-        </li>
-    {% endif %}
-</ul>
+      
+      <ul class="navbar-nav ms-auto gap-2">
+        {% if app.user %}
+          <li class="nav-item d-flex align-items-center gap-2">
+            <a href="{{ path('app_user') }}" class="nav-link px-2 py-1 rounded-circle bg-light shadow-sm d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; transition: box-shadow 0.2s, background 0.2s;">
+              <i class="bi bi-person" style="font-size: 1.7rem; color: #198754;"></i>
+            </a>
+            <a href="{{ path('app_logout') }}" class="nav-link px-2 py-1 rounded-circle bg-light shadow-sm d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; transition: box-shadow 0.2s, background 0.2s;">
+              <i class="bi bi-box-arrow-right" style="font-size: 1.7rem; color: #dc3545;"></i>
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="btn btn-outline-primary px-4 fw-semibold" href="{{ path('app_login') }}">Connexion</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary px-4 fw-semibold" href="{{ path('app_user_new') }}">Créer un compte</a>
+          </li>
+        {% endif %}
+      </ul>
     </div>
   </div>
 </nav>
+<style>
+  .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+    background: #f0f4fa;
+    color: #0d6efd !important;
+    box-shadow: 0 2px 8px rgba(13,110,253,0.08);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .navbar-nav .nav-link.rounded-circle:hover {
+    background: #e9ecef !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  }
+</style>

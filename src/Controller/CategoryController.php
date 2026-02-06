@@ -19,7 +19,7 @@ final class CategoryController extends AbstractController
         $categories = $em->getRepository(Category::class)->findAll();
         return $this->render('category/index.html.twig', [
             'categories' => $categories,
-            'controller_name' => 'CategoryController de Monsieur khalfoun',
+
         ]);
     }
 
