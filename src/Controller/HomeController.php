@@ -17,7 +17,7 @@ final class HomeController extends AbstractController
 
 
         return $this->render('home/index.html.twig', [
-            "message" => "Magasin de CD et de vinyles de Salim !",
+
             "products" => $products
         ]);
     }

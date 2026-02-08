@@ -9,7 +9,7 @@
             <h1 class="display-4 fw-bold mb-3 text-primary">
                 <i class="bi bi-bag-heart-fill me-2"></i>Bienvenue sur SalimShop !
             </h1>
-            <p class="lead text-muted">{{ message }}</p>
+           
             {% if is_granted('ROLE_USER') %}
                 <p class="mb-0">Vous êtes connecté en tant que <span class="fw-semibold text-success">{{ app.user.prenom }}</span>.</p>
             {% endif %}

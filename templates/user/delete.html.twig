@@ -6,7 +6,9 @@
 
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    <p>{{ message }}</p>
+ <form method="post" action="{{ path('app_user_delete', {'id': user.id}) }}" style="display:inline" onsubmit="return confirm('Confirmer la suppression ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
 </div>
 {% endblock %}

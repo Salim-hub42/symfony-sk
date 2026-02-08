@@ -23,6 +23,11 @@
           <a class="nav-link px-3 rounded-3 fw-semibold text-dark" href="{{ path('app_product') }}">Produits</a>
         </li>
         {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+        <li class="nav-item">
+          <a class="nav-link px-3 rounded-3 fw-semibold text-dark" href="{{ path('app_user_dashboard') }}">Tableau de bord Admin</a>
+        </li>
+         {% endif %}
       </ul>
       
       <ul class="navbar-nav ms-auto gap-2">

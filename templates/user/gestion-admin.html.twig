@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+
+
+
+
+<div class="example-wrapper">
+    
+     <h1>{{ message }}</h1>
+       <table class="table table-striped">
+           <thead>
+               <tr>
+                   <th>ID</th>
+                   <th>Nom</th>
+                   <th>Prénom</th>
+                   <th>Email</th>
+                   <th>Rôles</th>
+               </tr>
+           </thead>
+           <tbody>
+               {% for user in users %}
+                   <tr>
+                       <td>{{ user.id }}</td>
+                       <td>{{ user.nom }}</td>
+                       <td>{{ user.prenom }}</td>
+                       <td>{{ user.email }}</td>
+                       <td>{{ user.roles|join(', ') }}</td>
+                       <td>
+                           <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                           <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning btn-sm">Modifier</a> 
+                           <form action="{{ path('app_user_delete', {'id': user.id}) }}" method="post" style="display:inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                               <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                               <button class="btn btn-danger btn-sm">Supprimer</button>
+                           </form>
+                       </td>
+                   </tr>
+               {% endfor %}
+           </tbody>
+  
+</div>
+{% endblock %}
