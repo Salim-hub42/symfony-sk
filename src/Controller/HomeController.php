@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Product;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\HttpFoundation\Request;
 
 final class HomeController extends AbstractController
 {
@@ -23,12 +26,23 @@ final class HomeController extends AbstractController
     }
 
     #[Route("/Contact", name: "app_contact")]
-    public function contact(): Response
+    public function mail(Request $request, MailerInterface $mailer): Response
     {
-        return $this->render("home/contact.html.twig", [
-            "wellcome" => "Salim",
-            "nom" => "Khalfoun",
-            "tel" => "0695162037"
-        ]);
+        if ($request->isMethod('POST')) {
+            $nom = $request->request->get('name');
+            $from = $request->request->get('email');
+            $message = $request->request->get('message');
+
+            $email = (new Email())
+                ->from($from)
+                ->to('salim@gmail.com')
+                ->subject('Nouveau message de contact')
+                ->text("Nom: $nom\nEmail: $from\nMessage: $message");
+            $mailer->send($email);
+
+            $this->addFlash('success', 'Votre message a bien été envoyé !');
+        }
+
+        return $this->render("home/contact.html.twig", []);
     }
 }

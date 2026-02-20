@@ -31,7 +31,7 @@ class UserType extends AbstractType
                     'Administrateur' => 'ROLE_ADMIN',
                     'Employé' => 'ROLE_EMPLOYEE',
                 ],
-                'expanded' => true,
+                'expanded' => true, // Affiche les options sous forme de cases à cocher
                 'multiple' => true,
             ]);
         }

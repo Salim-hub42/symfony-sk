@@ -14,7 +14,9 @@
             {{ form_row(form.nom) }}    
             {{ form_row(form.email) }}
             {{ form_row(form.password) }}
+            {% if form.roles is defined %}
             {{ form_row(form.roles) }}
+            {% endif %}
             <button type="submit" class="btn btn-primary">Create User</button>
             {{ form_end(form) }}
         </div>

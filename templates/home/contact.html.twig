@@ -13,18 +13,18 @@
         <div class="col-md-6">
             <div class="bg-white rounded-4 shadow-sm p-4 h-100">
                 <h4 class="mb-4 text-primary"><i class="bi bi-envelope-paper-heart me-2"></i>Formulaire de contact</h4>
-                <form>
+                <form method="post">
                     <div class="mb-3">
                         <label for="name" class="form-label">Nom</label>
-                        <input type="text" class="form-control" id="name" placeholder="Votre nom" required>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Votre nom" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Votre email" required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Votre email" required>
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" rows="4" placeholder="Votre message..." required></textarea>
+                        <textarea class="form-control" id="message" name="message" rows="4" placeholder="Votre message..." required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary px-4 mt-2">Envoyer <i class="bi bi-send ms-1"></i></button>
                 </form>

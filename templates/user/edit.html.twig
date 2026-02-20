@@ -70,8 +70,10 @@
                         {{ form_widget(form.password, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Changer le mot de passe'}}) }}
                     </div>
                     <div class="mb-3">
+                    {% if form.roles is defined %}
                         {{ form_label(form.roles, 'Rôles', {'label_attr': {'class': 'form-label fw-bold'}}) }}
                         {{ form_widget(form.roles) }}
+                    {% endif %}
                     </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-warning btn-lg text-dark shadow">💾 Enregistrer</button>
