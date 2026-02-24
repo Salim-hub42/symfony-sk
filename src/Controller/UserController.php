@@ -10,7 +10,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Form\UserType;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
+use App\Event\UserAddSuccessEvent;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class UserController extends AbstractController
 {
@@ -47,12 +48,13 @@ final class UserController extends AbstractController
     // ici pour que l'utilisateur puisse créer un compte, éditer ses informations, voir son profil et supprimer son compte
 
     #[Route('/new', name: 'app_user_new')]
-    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, EventDispatcherInterface $dispatcher): Response
     {
 
         $user = new User(); // Crée une nouvelle instance de User depuis l'entité User
         $form = $this->createForm(UserType::class, $user, ['include_email' => true, 'is_admin' => $this->isGranted('ROLE_ADMIN'),]); // Crée un formulaire basé sur la classe UserType et lie les données à l'objet $user
         $form->handleRequest($request); // Traite la requête et remplit le formulaire avec les données soumises
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Récupère le mot de passe du formulaire
@@ -61,7 +63,7 @@ final class UserController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user, $PasswordForm);
             $user->setPassword($hashedPassword);
 
-            // Si l'utilisateur n'est pas admin, forcer le rôle ROLE_USER
+            // Si l'utilisateur n'est pas admin,  rôle ROLE_USER
             if (!$this->isGranted('ROLE_ADMIN')) { // Vérifie si l'utilisateur connecté n'a pas le rôle d'administrateur
                 $user->setRoles(['ROLE_USER']); // Si l'utilisateur n'est pas admin, on lui attribue automatiquement le rôle ROLE_USER pour éviter qu'il puisse s'attribuer des rôles non autorisés via le formulaire
             }
@@ -69,7 +71,12 @@ final class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', 'User created successfully!');
+            //ici nous avons un suscriber qui écoute l'événement 'userAdd.success' et qui envoie un email de bienvenue à l'utilisateur après la création de son compte,
+            // nous allons donc déclencher cet événement après la création du compte utilisateur
+            $userEvent = new UserAddSuccessEvent($user);
+            $dispatcher->dispatch($userEvent, 'userAdd.success');
+
+
             return $this->redirectToRoute('app_home');
         }
 
